@@ -2,6 +2,7 @@ import './globals.css';
 
 import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'Isaac Lloyd',
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
         {children}
         <Toaster />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
