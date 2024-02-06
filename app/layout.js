@@ -1,6 +1,7 @@
 import './globals.css';
 
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: 'Isaac Lloyd',
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-charleston text-platinum Anth-Regular w-full antialiased overflow-x-hidden">
         {children}
         <Toaster />
+        <SpeedInsights />
       </body>
     </html>
   );
