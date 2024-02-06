@@ -16,45 +16,33 @@
   }
 
   .Anth-Regular {
-    font-family: "anth", sans-serif;
-    font-weight: 400;
+    font-family: anth, sans-serif;
     font-style: normal;
+    font-weight: 400;
   }
 
-  .font3 {
+  .Club-Regular {
     font-family: "club-lithographer", sans-serif;
     font-weight: 400;
     font-style: italic;
   }
 
-  .font4 {
+  .Caslon-Regular {
     font-family: adobe-caslon-pro, serif;
     font-style: normal;
     font-weight: 400;
   }
 
-  .shade-1 {
-    color: #0D0C0D;
-  }
-
-  .shade-2 {
-    color: #8C8B8C;
-  }
-
-  .shade-3 {
-    color: #595859;
-  }
-
-  .shade-4 {
-    color: #262626;
-  }
-
-  .shade-5 {
-    color: #D9D9D9;
-  }
-
   .fade-in {
     animation: fadeIn 300ms ease-in-out;
+  }
+
+  .flex-container {
+    transition: margin 300ms ease-in-out;
+  }
+
+  .image-container {
+    transition: order 300ms ease-in-out, margin 300ms ease-in-out;
   }
 }
 
@@ -71,29 +59,13 @@
   }
 }
 
-/* globals.css */
-
-/* Begin with the image and text centered with no additional margin */
-.flex-container {
-  transition: margin 300ms ease-in-out;
-}
-
-/* Image specific transitions */
-.image-container {
-  transition: order 300ms ease-in-out, margin 300ms ease-in-out;
-}
-
-/* Apply the margin and order change when the flex-direction changes on smaller screens */
 @media (max-width: 768px) {
   .image-container {
     order: -1;
-    /* Move the image above the text */
     margin-bottom: 1rem;
-    /* Add some space below the image */
   }
 
   .flex-container {
     margin-top: 0;
-    /* Ensure a smooth transition with no snapping */
   }
 }

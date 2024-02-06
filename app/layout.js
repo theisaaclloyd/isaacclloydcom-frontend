@@ -1,5 +1,6 @@
-//import Head from "next/head";
 import './globals.css';
+
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata = {
   title: 'Isaac Lloyd',
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
 
       <body className="min-h-screen bg-charleston text-platinum Anth-Regular w-full antialiased overflow-x-hidden">
         {children}
+        <Toaster />
       </body>
     </html>
   );

@@ -1,138 +1,231 @@
 "use client";
-import { set } from "date-fns";
+import QuineMcCluskey from "./tools/quinemccluskey";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+import { Label } from "@/components/ui/label";
 
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { min } from "date-fns";
 
-function Label({ value, classes }) {
-	//<div className="h-10 border-l-2 border-r-2 font-bold col-start-4 col-span-2 text-red-400 text-2xl lg:m-2 md:m-1 sm:m-0 border-gray-400">A</div>
+const TermLabel = ({ value, classes }) => (<div className={`flex items-center justify-center border-2 rounded-sm border-gray-400 font-bold text-red-400 ${classes}`}>{value}</div>);
 
-	return (
-		<div
-			className={`flex items-center justify-center border-2 border-gray-400 font-bold text-red-400 ${classes}`}
-		>
-			{value}
+const TermButton = ({ id, data, handleClick, classes }) => (
+	<Button
+		className={`w-20 h-20 flex items-center rounded-sm justify-center border-2 font-bold text-red-400 ${data[id].border} ${classes}`}
+		onClick={() => handleClick(id)}
+	>
+		<div className="text-base Gitan-Regular text-platinum absolute pb-14 pr-14">
+			{data[id].key}
 		</div>
-	);
-}
-
-function Button({ id, data, handleClick, classes }) {
-
-	//w-16 h-16 border-2 font-bold text-red-400 text-2xl items-center text-center justify-center lg:m-2 md:m-1 sm:m-0
-	return (
-		<button
-			className={`w-16 h-16 flex items-center justify-center border-2 font-bold text-red-400 ${data[id].border} ${classes}`}
-			onClick={() => handleClick(id)}
-		>
+		<div className="text-2xl">
 			{data[id].value}
-		</button>
-	);
-}
+		</div>
+	</Button>
+);
 
+const KMap = ({ data, handleClick }) => (
+	<div className="flex flex-row items-center justify-center ">
+		<div className="grid grid-cols-6 gap-2 text-2xl">
+			<TermLabel value={data.variables[0]} classes="h-20 col-start-4 col-span-2" />
+			<TermLabel value={data.variables[2]} classes="w-20 col-start-1 row-start-4 row-span-2" />
+			<TermLabel value={data.variables[3]} classes="w-20 col-start-6 row-start-3 row-span-2" />
+			<TermLabel value={data.variables[1]} classes="h-20 col-start-3 row-start-6 col-span-2" />
+
+			<TermButton id={0} data={data.squares} handleClick={handleClick} classes="col-start-2" />
+			<TermButton id={1} data={data.squares} handleClick={handleClick} />
+			<TermButton id={2} data={data.squares} handleClick={handleClick} />
+			<TermButton id={3} data={data.squares} handleClick={handleClick} />
+
+			<TermButton id={4} data={data.squares} handleClick={handleClick} classes="col-start-2" />
+			<TermButton id={5} data={data.squares} handleClick={handleClick} />
+			<TermButton id={6} data={data.squares} handleClick={handleClick} />
+			<TermButton id={7} data={data.squares} handleClick={handleClick} />
+
+			<TermButton id={8} data={data.squares} handleClick={handleClick} classes="col-start-2" />
+			<TermButton id={9} data={data.squares} handleClick={handleClick} />
+			<TermButton id={10} data={data.squares} handleClick={handleClick} />
+			<TermButton id={11} data={data.squares} handleClick={handleClick} />
+
+			<TermButton id={12} data={data.squares} handleClick={handleClick} classes="col-start-2" />
+			<TermButton id={13} data={data.squares} handleClick={handleClick} />
+			<TermButton id={14} data={data.squares} handleClick={handleClick} />
+			<TermButton id={15} data={data.squares} handleClick={handleClick} />
+		</div>
+	</div>
+);
+
+const simplify = (f) => (f.replace(/NOT ([A-Z])/g, '$1\'').replace(/OR/g, '+').replace(/AND/g, ''));
 
 export default function Board() {
+	const { toast } = useToast();
+
 	const mintermOrder = [0, 4, 12, 8, 1, 5, 13, 9, 3, 7, 15, 11, 2, 6, 14, 10];
 
-	const [squares, setSquares] = useState(
-		Array(16).fill().map((e, i) => ({ key: mintermOrder[i], value: "0", border: "border-gray-400" }))
-	);
+	const defaultFuncData = {
+		name: "f",
+		variables: ['A', 'B', 'C', 'D'],
+		minterms: [],
+		maxterms: [],
+		dontcares: [],
+		sop: "no solution",
+		pos: "no solution",
+		update: false,
+		squares: Array(16).fill().map((e, i) => ({ key: mintermOrder[i], value: "0", border: "border-gray-400" }))
+	};
 
-	const [terms, setTerms] = useState({ minterms: [], maxterms: [], dontcares: [] });
-	const [solution, setSolution] = useState("no solution");
+	const [funcData, setFunctionData] = useState(defaultFuncData);
 
 	function handleClick(i) {
-		squares[i].value = squares[i].value === "1" ? "X" : squares[i].value === "X" ? "0" : "1";
-
-		setTerms({ minterms: [], maxterms: [], dontcares: [] });
+		funcData.squares[i].value = funcData.squares[i].value === "1" ? "X" : funcData.squares[i].value === "X" ? "0" : "1";
 
 		let newMinterms = [];
 		let newMaxterms = [];
 		let newDontcares = [];
 
-		squares.forEach((square, index) => {
+		funcData.squares.forEach((square, index) => {
 			if (square.value === '1') {
 				newMinterms.push(mintermOrder[index]);
 
-				squares[index].border = "border-green-400";
+				funcData.squares[index].border = "border-green-400";
 			} else if (square.value === 'X') {
 				newDontcares.push(mintermOrder[index]);
 
-				squares[index].border = "border-yellow-400";
+				funcData.squares[index].border = "border-yellow-400";
 			} else if (square.value === '0') {
 				newMaxterms.push(mintermOrder[index]);
 
-				squares[index].border = "border-red-400";
+				funcData.squares[index].border = "border-red-400";
 			}
 		});
 
-		setTerms({ minterms: newMinterms, maxterms: newMaxterms, dontcares: newDontcares });
-
-		console.log(`Terms: ${JSON.stringify(terms)}`);
+		setFunctionData({ ...funcData, minterms: newMinterms, maxterms: newMaxterms, dontcares: newDontcares });
 	}
 
 	function resetBoard() {
-		setSquares(Array(16).fill().map((e, i) => ({ key: mintermOrder[i], value: "0", boarder: "border-gray-400" })));
-		setTerms({ minterms: [], maxterms: [], dontcares: [] });
-		setSolution("no solution");
+		setFunctionData(defaultFuncData);
+	}
+
+	function updateKmap() {
+		if (!funcData.update) return;
+
+		funcData.squares.forEach((square, index) => {
+			if (funcData.minterms.includes(mintermOrder[index])) {
+				square.value = "1";
+				square.border = "border-green-400";
+			} else if (funcData.dontcares.includes(mintermOrder[index])) {
+				square.value = "X";
+				square.border = "border-yellow-400";
+			} else if (funcData.maxterms.includes(mintermOrder[index])) {
+				square.value = "0";
+				square.border = "border-red-400";
+			} else {
+				square.value = "0";
+				square.border = "border-red-400";
+			}
+		});
+
+		setFunctionData({ ...funcData, update: false });
+	}
+
+	function validate(e) {
+		let before = e.target.value.split(',');
+		let final = [];
+
+		for (let n of before) {
+			if (n >= 0 && n <= 15) {
+				final.push(n);
+			}
+			else {
+				toast({
+					title: "Error",
+					description: "Invalid input",
+				});
+			}
+
+			//updateKmap();
+			return final;
+		}
+	}
+
+
+	function Calculate() {
+		let sop = new QuineMcCluskey(funcData.variables.join(''), funcData.minterms, funcData.dontcares, false);
+		let pos = new QuineMcCluskey(funcData.variables.join(''), funcData.maxterms, funcData.dontcares, true);
+
+		let simpleSop = simplify(sop.getFunction().toString());
+		let simplePos = simplify(pos.getFunction().toString());
+		setFunctionData({ ...funcData, sop: simpleSop, pos: simplePos });
 	}
 
 	return (
-		<>
-			<div className="flex flex-row items-center justify-center">
-				<div className="grid grid-cols-6 gap-2 text-2xl">
-					<Label value="A" classes="h-16 col-start-4 col-span-2" />
-					<Label value="C" classes="w-16 col-start-1 row-start-4 row-span-2" />
-					<Label value="D" classes="w-16 col-start-6 row-start-3 row-span-2" />
-					<Label value="B" classes="h-16 col-start-3 row-start-6 col-span-2" />
+		<div className="flex mt-4 gap-5 flex-col lg:flex-row mx-auto w-full px-10 items-center justify-center">
+			<Card className="rounded-sm w-full px-1 border-none">
+				<CardHeader>
+					<CardTitle className="flex text-2xl justify-between">
+						Karnaugh Map
+					</CardTitle>
+					<CardDescription>
+						<Label>Click on the boxes to change the terms value and press calculate to solve the Kmap</Label>
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<KMap data={funcData} handleClick={handleClick} />
+				</CardContent>
 
-					<Button id={0} data={squares} handleClick={handleClick} classes="col-start-2" />
-					<Button id={1} data={squares} handleClick={handleClick} />
-					<Button id={2} data={squares} handleClick={handleClick} />
-					<Button id={3} data={squares} handleClick={handleClick} />
+				<CardFooter className="flex justify-between">
+					<Button onClick={() => resetBoard()} className="mt-4 bg-red-500 text-white font-bold rounded-lg shadow-lg hover:bg-red-700">Reset</Button>
 
-					<Button id={4} data={squares} handleClick={handleClick} classes="col-start-2" />
-					<Button id={5} data={squares} handleClick={handleClick} />
-					<Button id={6} data={squares} handleClick={handleClick} />
-					<Button id={7} data={squares} handleClick={handleClick} />
+					<Button onClick={() => Calculate()} className="mt-4 bg-green-500 text-white font-bold rounded-lg shadow-lg hover:bg-green-700">Calculate</Button>
+				</CardFooter>
+			</Card>
 
-					<Button id={8} data={squares} handleClick={handleClick} classes="col-start-2" />
-					<Button id={9} data={squares} handleClick={handleClick} />
-					<Button id={10} data={squares} handleClick={handleClick} />
-					<Button id={11} data={squares} handleClick={handleClick} />
+			<Card className="rounded-sm w-full px-1 border-none">
+				<CardHeader>
+					<CardTitle className="flex text-2xl justify-between">
+						Output
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<form>
+						<div className="grid w-full items-center gap-6">
 
-					<Button id={12} data={squares} handleClick={handleClick} classes="col-start-2" />
-					<Button id={13} data={squares} handleClick={handleClick} />
-					<Button id={14} data={squares} handleClick={handleClick} />
-					<Button id={15} data={squares} handleClick={handleClick} />
-				</div>
-			</div>
+							<div className="flex flex-col space-y-2">
+								<div className="text-lg pt-1 font-semibold">Min SOP solution:</div>
+								<Input disabled value={funcData.sop} onChange={(e) => setFunctionData({ ...funcData, sop: e.target.value })} />
 
-			<div className="mt-4">
-				<div className="text-lg font-semibold">Boolean Algebra Term:</div>
-				<div className="text-lg mb-2 p-2 border-2 border-gray-400 rounded-lg">{solution}</div>
+								<div className="text-lg pt-1 font-semibold">Min POS solution:</div>
+								<Input disabled value={funcData.pos} onChange={(e) => setFunctionData({ ...funcData, pos: e.target.value })} />
+							</div>
 
-				<div className="grid grid-cols-3 gap-4">
-					<div>
-						<div className="text-lg font-semibold">Minterm equation:</div>
-						<div className="p-2 border-2 border-gray-400 rounded-lg">f = &Sigma;m({terms.minterms.sort((a, b) => a - b).join(', ')})</div>
-					</div>
-					<div>
-						<div className="text-lg font-semibold">Maxterm equation:</div>
-						<div className="p-2 border-2 border-gray-400 rounded-lg">f=&Pi;M({terms.maxterms.sort((a, b) => a - b).join(', ')})</div>
-					</div>
-					<div>
-						<div className="text-lg font-semibold">Don&apos;t-cares:</div>
-						<div className="p-2 border-2 border-gray-400 rounded-lg">+ &Sigma;d({terms.dontcares.sort((a, b) => a - b).join(', ')})</div>
-					</div>
-				</div>
-			</div>
+							<div className="flex flex-col space-y-2">
+								<div className="text-lg pt-1 font-semibold">Minterm list</div>
+								<Input disabled value={`${funcData.name}(${funcData.variables}) = Σm(${funcData.minterms}) + Σd(${funcData.dontcares})`} onChange={(e) => setFunctionData({ ...funcData, update: true, minterms: e.target.value })} />
+								<a hidden={!funcData.update} onClick={updateKmap} className="transition">Update</a>
+							</div>
 
-			<button
-				className="mt-4 py-2 px-4 bg-red-500 text-white font-bold rounded-lg shadow-lg hover:bg-red-700"
-				onClick={() => resetBoard()}
-			>
-				Clear
-			</button>
-		</>
-
+							<div className="flex flex-col space-y-2">
+								<div className="text-lg pt-1 font-semibold">Maxterm list</div>
+								<Input disabled value={`${funcData.name}(${funcData.variables}) = ΠM(${funcData.maxterms}) + ΣD(${funcData.dontcares})`} onChange={(e) => setFunctionData({ ...funcData, update: true, maxterms: e.target.value.split(', ').join(',') })} />
+								<a hidden={!funcData.update} onClick={updateKmap} className="transition">Update</a>
+							</div>
+						</div>
+					</form>
+				</CardContent>
+			</Card>
+			
+			<footer className="text-center py-10">
+				<p>NodeJS implementation of Quine-McCluskey Algorithm by <a className="italic underline hover:text-slate-600 transition" href="https://github.com/fh-logician/QM.js">fh-logician</a></p>
+			</footer>
+		</div>
 	);
 }

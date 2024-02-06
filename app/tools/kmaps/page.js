@@ -1,6 +1,5 @@
 // * /tools/kmaps
 
-import Link from "next/link";
 import Board from "./board";
 
 export const metadata = {
@@ -10,10 +9,18 @@ export const metadata = {
 
 export default function Home() {
 	return (
-		<main className="h-screen flex fade-in mx-auto items-center text-center justify-center max-w-3xl">
-			<div className="pt-10">
+		<>
+			<header className="flex Gitan-Regular justify-center items-center h-20 text-4xl underline underline-offset-4">
+				<h1>Karnaugh Map Solver</h1>
+			</header>
+
+			<main className="h-screen Gitan-Regular w-full fade-in mx-auto pt-10">
 				<Board />
-			</div>
-		</main>
+			</main>
+
+			{/*<footer className="flex Gitan-Regular justify-center items-center h-32 text-base">
+				<p>© 2024 Isaac Lloyd</p>
+	</footer>*/}
+		</>
 	);
 }
