@@ -15,6 +15,8 @@ export default function Home() {
 					<h1 className="text-5xl underline underline-offset-8 text-test3">About me</h1>
 					<p className="py-6 Gitan-Regular text-test6">
 						My name is Isaac Lloyd, and I am a student of Cybersecurity and Computer Science at Cedarville University. I am currently a freshman, and I am expected to graduate in 2027.
+						This site serves as my personal portfolio and a place to showcase my work. I have developed this site using Next.js, a React framework, together with Tailwind CSS, a utility-first CSS framework.
+						You can find more of my projects on my GitHub page at <Link href="https://github.com/theisaaclloyd" className="text-slate-400 hover:text-gray-900 transition underline underline-offset-4">github.com/isaacclloyd</Link>.
 					</p>
 					<Link href="/" className="pt-15 Gitan-Regular text-slate-400 hover:text-gray-900 transition underline underline-offset-4">Home</Link>
 				</div>
