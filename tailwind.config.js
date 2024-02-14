@@ -39,7 +39,9 @@ module.exports = {
         'test4': '#B4B4AA',
         'test5': '#BF8C6F',
         'test6': '#ABABAB',
-        'test7': '',
+        'jet': '#2A2D31',
+        'royal': '#6F5392',
+        'cornflower': '#2C446F',
       },
       keyframes: {
         "accordion-down": {

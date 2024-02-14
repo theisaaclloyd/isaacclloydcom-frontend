@@ -14,13 +14,13 @@ export default function Home() {
 				<h1>Karnaugh Map Solver</h1>
 			</header>
 
-			<main className="h-screen Gitan-Regular w-full fade-in mx-auto pt-10">
+			<main className="Gitan-Regular w-full fade-in mx-auto pt-10">
 				<Board />
-			</main>
 
-			{/*<footer className="flex Gitan-Regular justify-center items-center h-32 text-base">
-				<p>© 2024 Isaac Lloyd</p>
-	</footer>*/}
+				<footer className="text-center py-10">
+					<p>NodeJS implementation of Quine-McCluskey Algorithm by <a className="italic underline hover:text-slate-600 transition" href="https://github.com/fh-logician/QM.js">fh-logician</a></p>
+				</footer>
+			</main>
 		</>
 	);
 }

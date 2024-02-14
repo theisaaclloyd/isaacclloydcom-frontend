@@ -1,11 +1,11 @@
 "use client";
 import QuineMcCluskey from "./tools/quinemccluskey";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
+
 
 import {
 	Card,
@@ -15,7 +15,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { min } from "date-fns";
 
 const TermLabel = ({ value, classes }) => (<div className={`flex items-center justify-center border-2 rounded-sm border-gray-400 font-bold text-red-400 ${classes}`}>{value}</div>);
 
@@ -34,7 +33,7 @@ const TermButton = ({ id, data, handleClick, classes }) => (
 );
 
 const KMap = ({ data, handleClick }) => (
-	<div className="flex flex-row items-center justify-center ">
+	<div className="flex flex-row items-center justify-center min-w-32">
 		<div className="grid grid-cols-6 gap-2 text-2xl">
 			<TermLabel value={data.variables[0]} classes="h-20 col-start-4 col-span-2" />
 			<TermLabel value={data.variables[2]} classes="w-20 col-start-1 row-start-4 row-span-2" />
@@ -137,26 +136,6 @@ export default function Board() {
 		setFunctionData({ ...funcData, update: false });
 	}
 
-	function validate(e) {
-		let before = e.target.value.split(',');
-		let final = [];
-
-		for (let n of before) {
-			if (n >= 0 && n <= 15) {
-				final.push(n);
-			}
-			else {
-				toast({
-					title: "Error",
-					description: "Invalid input",
-				});
-			}
-
-			//updateKmap();
-			return final;
-		}
-	}
-
 
 	function Calculate() {
 		let sop = new QuineMcCluskey(funcData.variables.join(''), funcData.minterms, funcData.dontcares, false);
@@ -198,7 +177,6 @@ export default function Board() {
 				<CardContent>
 					<form>
 						<div className="grid w-full items-center gap-6">
-
 							<div className="flex flex-col space-y-2">
 								<div className="text-lg pt-1 font-semibold">Min SOP solution:</div>
 								<Input disabled value={funcData.sop} onChange={(e) => setFunctionData({ ...funcData, sop: e.target.value })} />
@@ -222,10 +200,6 @@ export default function Board() {
 					</form>
 				</CardContent>
 			</Card>
-			
-			<footer className="text-center py-10">
-				<p>NodeJS implementation of Quine-McCluskey Algorithm by <a className="italic underline hover:text-slate-600 transition" href="https://github.com/fh-logician/QM.js">fh-logician</a></p>
-			</footer>
 		</div>
 	);
 }
