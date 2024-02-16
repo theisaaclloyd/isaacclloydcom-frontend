@@ -43,7 +43,7 @@ export default function Home() {
 
 					<div className="flex flex-col items-center justify-center md:items-start">
 						<h1 className="text-4xl md:text-5xl pb-2">Isaac Lloyd</h1>
-						<p className="text-xl md:text-xl Gitan-Regular">MS Cyber Operations + Computer Science</p>
+						<p className="text-xl md:text-xl Gitan-Regular">BS Cyber Operations + Computer Science</p>
 						<p className="text-lg md:text-xl pb-2 text-orange-200 italic Gitan-Regular">Cedarville University &apos;27</p>
 					</div>
 
