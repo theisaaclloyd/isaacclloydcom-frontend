@@ -63,7 +63,7 @@ const KMap = ({ data, handleClick }) => (
 	</div>
 );
 
-const simplify = (f) => (f.replace(/NOT ([A-Z])/g, '$1\'').replace(/OR/g, '+').replace(/AND/g, ''));
+const simplify = (f) => (f.replace(/NOT ([A-Z])/g, '$1\'').replace(/OR/g, '+').replace(/AND/g, '').replace(/(  )/g, ''));
 
 export default function Board() {
 	const { toast } = useToast();
@@ -112,6 +112,11 @@ export default function Board() {
 
 	function resetBoard() {
 		setFunctionData(defaultFuncData);
+	}
+
+	function clickCopy(e, text) {
+		e.preventDefault();
+		navigator.clipboard.writeText(text);
 	}
 
 	function updateKmap() {
@@ -179,10 +184,24 @@ export default function Board() {
 						<div className="grid w-full items-center gap-6">
 							<div className="flex flex-col space-y-2">
 								<div className="text-lg pt-1 font-semibold">Min SOP solution:</div>
-								<Input disabled value={funcData.sop} onChange={(e) => setFunctionData({ ...funcData, sop: e.target.value })} />
+								{/*<Input disabled value={funcData.sop} onChange={(e) => setFunctionData({ ...funcData, sop: e.target.value })} />*/}
+								<div className="flex justify-between border border-gray-300 rounded-md">
+									<div className="text-lg py-3 pl-3 font-light text-royal">{funcData.sop}</div>
+									<div className="text-lg py-2 pr-3 font-light text-royal">
+										<Button onClick={(e) => clickCopy(e, funcData.sop)} className="bg-royal text-white font-bold rounded-lg shadow-lg hover:bg-cornflower active:bg-slate-600">Copy</Button>
+									</div>
+
+								</div>
 
 								<div className="text-lg pt-1 font-semibold">Min POS solution:</div>
-								<Input disabled value={funcData.pos} onChange={(e) => setFunctionData({ ...funcData, pos: e.target.value })} />
+								{/*<Input disabled value={funcData.pos} onChange={(e) => setFunctionData({ ...funcData, pos: e.target.value })} />*/}
+								<div className="flex justify-between border border-gray-300 rounded-md">
+									<div className="text-lg py-3 pl-3 font-light text-royal">{funcData.pos}</div>
+									<div className="text-lg py-2 pr-3 font-light text-royal">
+										<Button onClick={(e) => clickCopy(e, funcData.pos)} className="bg-royal text-white font-bold rounded-lg shadow-lg hover:bg-cornflower active:bg-slate-600">Copy</Button>
+									</div>
+
+								</div>
 							</div>
 
 							<div className="flex flex-col space-y-2">
