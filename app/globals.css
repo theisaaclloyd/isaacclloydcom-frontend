@@ -40,7 +40,7 @@
   }
 
   .fade-in {
-    animation: fadeIn 300ms ease-in-out;
+    animation: fadeIn 500ms ease-in-out;
   }
 
   .flex-container {
@@ -49,6 +49,18 @@
 
   .image-container {
     transition: order 300ms ease-in-out, margin 300ms ease-in-out;
+  }
+
+
+  .trailsText {
+    width: 100%;
+    height: 60px;
+    will-change: transform, opacity;
+  }
+
+  .trailsText>div {
+    padding-right: 0.05em;
+    overflow: hidden;
   }
 }
 
@@ -61,7 +73,6 @@
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition: opacity 300ms, transform 300ms;
   }
 }
 

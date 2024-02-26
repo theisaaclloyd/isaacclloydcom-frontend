@@ -1,27 +1,22 @@
 "use client";
 
+import Link from "next/link";
 import { Scroller } from "./tools/Scroller";
 import { useState } from "react";
 
+
 export function BasicHeader() {
 	return (
-		<header
-			className="fixed top-0 left-0 w-full z-10 flex justify-between items-center py-4 px-6 bg-shade-4 text-black opacity-95 backdrop-blur-xl"
-			id="header"
-		>
-			<nav className="space-x-4 hidden lg:block">
-				<Scroller target="home" offset="68" className="hover:underline">Home</Scroller>
-				<Scroller target="about" offset="68" className="hover:underline">About</Scroller>
-			</nav>
+		<header className="flex justify-center items-center h-16 text-xl underline underline-offset-4">
+			<Link href="https://www.linkedin.com/in/isaacll/" target="_blank" rel="noopener noreferrer" className="mx-2 hover:text-gray-900 transition">linkedin</Link>
 
-			<h1 className="text-3xl font-light">
-				Isaac Lloyd
-			</h1>
+			<Link href="https://github.com/theisaaclloyd" target="_blank" rel="noopener noreferrer" className="mx-2 hover:text-gray-900 transition">github</Link>
 
-			<nav className="space-x-4 hidden lg:block">
-				<Scroller target="projects" offset="68" className="hover:underline">Projects</Scroller>
-				<Scroller target="contact" offset="68" className="hover:underline">Contact</Scroller>
-			</nav>
+			<Link href="mailto:hello@isaacclloyd.com" target="_blank" className="mx-2 hover:text-gray-900 transition">email</Link>
+
+			<Link href="/about" className="mx-2 hover:text-gray-900 transition">about</Link>
+
+			<Link href="/tools" className="mx-2 hover:text-gray-900 transition">tools</Link>
 		</header>
 	);
 }
