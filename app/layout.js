@@ -14,6 +14,8 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning={true}>
       <head>
         <script defer data-domain="isaacclloyd.com" src="https://plausible.isaacclloyd.com/js/script.js"></script>
+        <link rel="preconnect" href="https://use.typekit.net" crossorigin></link>
+        <link rel="preload" as="style" href="https://use.typekit.net/vqj5avh.css"></link>
         <link rel="stylesheet" href="https://use.typekit.net/vqj5avh.css"></link>
         <link rel="icon" href="assets/images/favicon.ico" />
       </head>
