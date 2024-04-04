@@ -15,9 +15,9 @@ export default function Home() {
 			<BasicHeader />
 
 			<section className="h-full flex items-left justify-center" id="home" >
-				<div className="flex flex-col md:flex-row w-full md:items-center mx-auto justify-center" >
+				<div className="flex flex-row w-full items-center mx-auto justify-center" >
 					<div className="mx-20">
-						<FadeIn className="flex flex-col text-center items-center justify-center md:items-start gap-1">
+						<div className="flex flex-col text-center items-center justify-center gap-3">
 							<span className="text-5xl underline underline-offset-8 text-test3">Projects</span>
 							<p className="pt-2 Gitan-Regular text-test6">
 								Below are some of the projects I&apos;ve built that you might find useful.
@@ -30,7 +30,7 @@ export default function Home() {
 									<Link href="/" className="text-slate-400 underline underline-offset-4 hover:text-gray-900 transition">Home</Link>
 								</li>
 							</ul>
-						</FadeIn>
+						</div>
 					</div>
 				</div>
 			</section>

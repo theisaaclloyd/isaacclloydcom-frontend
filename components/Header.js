@@ -8,6 +8,8 @@ import { useState } from "react";
 export function BasicHeader() {
 	return (
 		<header className="flex justify-center items-center h-16 text-xl underline underline-offset-4">
+			<Link href="/" className="mx-2 hover:text-gray-900 transition">home</Link>
+
 			<Link href="https://www.linkedin.com/in/isaacll/" target="_blank" rel="noopener noreferrer" className="mx-2 hover:text-gray-900 transition">linkedin</Link>
 
 			<Link href="https://github.com/theisaaclloyd" target="_blank" rel="noopener noreferrer" className="mx-2 hover:text-gray-900 transition">github</Link>
