@@ -16,9 +16,9 @@ export function BasicHeader() {
 
 			<Link href="mailto:hello@isaacclloyd.com" target="_blank" className="mx-2 hover:text-gray-900 transition">email</Link>
 
-			<Link href="/about" className="mx-2 hover:text-gray-900 transition">about</Link>
+			{/* <Link href="/about" className="mx-2 hover:text-gray-900 transition">about</Link> */}
 
-			<Link href="/tools" className="mx-2 hover:text-gray-900 transition">tools</Link>
+			<Link href="/tools" className="mx-2 hover:text-gray-900 transition">projects</Link>
 		</header>
 	);
 }
