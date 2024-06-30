@@ -1,5 +1,5 @@
 // * /
-import { BasicHeader } from '@/components/Header';
+import { Header } from '@/components/Header';
 import FadeIn from '@/components/tools/FadeIn';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -31,12 +31,6 @@ export default function Home() {
 						<div className="text-xl Gitan-Regular">BS Cyber Operations & BS Computer Science</div>
 						<div className="text-xl text-orange-200 italic Gitan-Regular">Cedarville University &apos;27</div>
 					</FadeIn>
-					{/* <FadeIn className="flex flex-col items-center text-center md:text-left justify-center md:items-start gap-0">
-						<span className="text-4xl md:text-5xl">Isaac Lloyd</span>
-						<span className="text-2xl md:text-xl Gitan-Regular">BS Cyber Operations + Computer Science</span>
-						<span className="text-xl md:text-xl text-orange-200 italic Gitan-Regular">Cedarville University &apos;27</span>
-					</FadeIn> */}
-				</div>
 			</section>
 
 
