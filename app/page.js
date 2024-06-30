@@ -14,7 +14,7 @@ export default function Home() {
 		<main className="h-screen flex flex-col">
 			<Header/>
 
-			<section className="flex h-full flex-col md:flex-row md:pl-20 items-center justify-center md:justify-normal flex-container" id="home" >
+			<section className="flex h-full flex-col md:flex-row md:pl-20 m-5 md:m-0 md:mr-10 items-center justify-center md:justify-normal flex-container" id="home" >
 				<div className="flex justify-center image-container">
 						<Image
 							className="rounded-xl transition-all duration-500 ease-in-out fade-in"
